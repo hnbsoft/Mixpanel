@@ -26,6 +26,10 @@ if [ -d "${haBuildOutputDirPath}" ] ; then
     rm -rf "${haBuildOutputDirPath}"
 fi
 
+# You MUST make an empty build output directory
+haCommandMakeBuildOutputFolder="mkdir -p \"$haBuildOutputDirPath\""
+eval $haCommandMakeBuildOutputFolder
+
 
 # Execute flow is: first clean the proejct, and then execute the archive command.
 echo ""
