@@ -8,6 +8,33 @@
 
 import Foundation
 
+/// Internal use, used to see whether you are using the correct version of HnbMixpanel framework.
+fileprivate let kHnbMixpanelFrameworkInternalVersion: String = "40.25.0811.1"
+
+/// class HnbMixpanelInfo
+public class HnbMixpanelInfo: NSObject
+{
+    /// Get the current framework bundle object
+    internal static let currentFrameworkBundle: Bundle = Bundle(for: HnbMixpanelInfo.self)
+
+    /// HnbMixpanel framework info as a String
+    @objc public static func frameworkInfoString() -> String
+    {
+        var infoString = "{HnbMixpanel Info: "
+
+        // HnbMixpanel framework version
+        infoString += "HnbMixpanelFrameworkInternalVersion = \(kHnbMixpanelFrameworkInternalVersion)"
+
+        // Add a build info string
+        // infoString += JBSCommonUtil.fetchHnbMixpanelCompileDateTimeString()
+
+        // Add an ending separator
+        infoString += "}"
+        return infoString
+    }
+}
+
+
 /// The wrapper class for the primary class `Mixpanel` for integrating Mixpanel with your app.
 /// Because this class name is the same as the module name, which may cause errors.
 /// See `https://github.com/apple/swift/issues/56573` for workarounds
