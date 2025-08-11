@@ -58,6 +58,7 @@
 		95ECF06A2C9B851B006364D2 /* Data+Compression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ECF0662C9B83D8006364D2 /* Data+Compression.swift */; };
 		95ECF06B2C9B851C006364D2 /* Data+Compression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95ECF0662C9B83D8006364D2 /* Data+Compression.swift */; };
 		BB9614171F3BB87700C3EF3E /* ReadWriteLock.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9614161F3BB87700C3EF3E /* ReadWriteLock.swift */; };
+		BDF7A7F52E498F0D003B60D5 /* HnbMacOSCodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = BDF7A7F42E498F0D003B60D5 /* HnbMacOSCodes.swift */; };
 		E10D118D1EC0F30900195CCD /* AutomaticEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = E151FA371E70DFB5002EF53D /* AutomaticEvents.swift */; };
 		E115948B1CFF1538007F8B4F /* Mixpanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E115948A1CFF1538007F8B4F /* Mixpanel.swift */; };
 		E115948E1D000709007F8B4F /* MixpanelInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = E115948D1D000709007F8B4F /* MixpanelInstance.swift */; };
@@ -123,6 +124,9 @@
 		86F86E81224404BD00B69832 /* Mixpanel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Mixpanel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		95ECF0662C9B83D8006364D2 /* Data+Compression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Compression.swift"; sourceTree = "<group>"; };
 		BB9614161F3BB87700C3EF3E /* ReadWriteLock.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadWriteLock.swift; sourceTree = "<group>"; };
+		BDF7A7F42E498F0D003B60D5 /* HnbMacOSCodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HnbMacOSCodes.swift; sourceTree = "<group>"; };
+		BDF7A8462E49917D003B60D5 /* HnbProjectConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = HnbProjectConfig.xcconfig; sourceTree = "<group>"; };
+		BDF7A8702E499247003B60D5 /* HnbMacOSTargetConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = HnbMacOSTargetConfig.xcconfig; sourceTree = "<group>"; };
 		E115947D1CFF1491007F8B4F /* Mixpanel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Mixpanel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E11594821CFF1491007F8B4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Info.plist; sourceTree = "<group>"; };
 		E115948A1CFF1538007F8B4F /* Mixpanel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mixpanel.swift; sourceTree = "<group>"; };
@@ -203,9 +207,20 @@
 			name = Logging;
 			sourceTree = "<group>";
 		};
+		BDF7A7F32E498E65003B60D5 /* HnbAllFiles */ = {
+			isa = PBXGroup;
+			children = (
+				BDF7A7F42E498F0D003B60D5 /* HnbMacOSCodes.swift */,
+				BDF7A8462E49917D003B60D5 /* HnbProjectConfig.xcconfig */,
+				BDF7A8702E499247003B60D5 /* HnbMacOSTargetConfig.xcconfig */,
+			);
+			path = HnbAllFiles;
+			sourceTree = "<group>";
+		};
 		E11594731CFF1491007F8B4F = {
 			isa = PBXGroup;
 			children = (
+				BDF7A7F32E498E65003B60D5 /* HnbAllFiles */,
 				E115947F1CFF1491007F8B4F /* Mixpanel */,
 				E115947E1CFF1491007F8B4F /* Products */,
 			);
@@ -588,6 +603,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				67FF65E421878414005161FA /* Group.swift in Sources */,
+				BDF7A7F52E498F0D003B60D5 /* HnbMacOSCodes.swift in Sources */,
 				E1F15FE01E64B60D00391AE3 /* MixpanelInstance.swift in Sources */,
 				E1F15FDF1E64B60D00391AE3 /* Mixpanel.swift in Sources */,
 				E1F15FDC1E64B60A00391AE3 /* AutomaticProperties.swift in Sources */,
@@ -689,6 +705,7 @@
 		};
 		E11594831CFF1491007F8B4F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BDF7A8462E49917D003B60D5 /* HnbProjectConfig.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -751,6 +768,7 @@
 		};
 		E11594841CFF1491007F8B4F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BDF7A8462E49917D003B60D5 /* HnbProjectConfig.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
@@ -957,6 +975,7 @@
 		};
 		E1F15FCE1E64A10800391AE3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BDF7A8702E499247003B60D5 /* HnbMacOSTargetConfig.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
@@ -986,6 +1005,7 @@
 		};
 		E1F15FCF1E64A10800391AE3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BDF7A8702E499247003B60D5 /* HnbMacOSTargetConfig.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
