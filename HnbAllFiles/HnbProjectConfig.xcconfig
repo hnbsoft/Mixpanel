@@ -8,3 +8,6 @@
 
 // Configuration settings file format documentation can be found at:
 // https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project
+
+DEAD_CODE_STRIPPING = YES
+

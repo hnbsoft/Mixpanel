@@ -8,3 +8,12 @@
 
 // Configuration settings file format documentation can be found at:
 // https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project
+
+BUILD_LIBRARY_FOR_DISTRIBUTION = YES
+ENABLE_MODULE_VERIFIER = YES
+MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = gnu17 gnu++20
+MODULE_VERIFIER_SUPPORTED_LANGUAGES = objective-c objective-c++
+
+
+// Signing section
+CODE_SIGN_STYLE = Automatic
