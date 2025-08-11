@@ -13,7 +13,7 @@ import Foundation
 #endif  // os(OSX)
 
 /// The primary class for integrating Mixpanel with your app.
-open class Mixpanel {
+internal class Mixpanel {
 
   @discardableResult
   open class func initialize(options: MixpanelOptions) -> MixpanelInstance {

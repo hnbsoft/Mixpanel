@@ -20,6 +20,9 @@ class ReadWriteLock {
       closure()
     }
   }
+
+  // HNB: Fix a warning that the result can be discard
+  @discardableResult
   func write<T>(closure: () -> T) -> T {
     concurrentQueue.sync(
       flags: .barrier,
