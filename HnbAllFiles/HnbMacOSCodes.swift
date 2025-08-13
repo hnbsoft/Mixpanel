@@ -38,7 +38,7 @@ public class HnbMixpanelInfo: NSObject
 /// The wrapper class for the primary class `Mixpanel` for integrating Mixpanel with your app.
 /// Because this class name is the same as the module name, which may cause errors.
 /// See `https://github.com/apple/swift/issues/56573` for workarounds
-open class HnbMixpanelWrapper {
+open class HnbWrapperMixpanel {
 
     @discardableResult
     open class func initialize(options: MixpanelOptions) -> MixpanelInstance {
@@ -116,3 +116,137 @@ open class HnbMixpanelWrapper {
         Mixpanel.removeInstance(name: name)
     }
 }
+
+
+// ============================================================================================================================
+// ============================================================================================================================
+#if os(OSX)
+
+/// This class is used to encapsulate commonly used methods for operating Mixpanel class.
+/// This class is applicable to both Objective-C projects and Swift projects.
+/// In your client app, you may only just use this class.
+///
+/// - Important: This class ONLY supports macOS
+public class HnbMixpanel: NSObject {
+    /// Singleton: The shared instance of this class
+    @objc public static let shared: HnbMixpanel = {
+        return HnbMixpanel()
+    }()
+
+    /// Life cycle
+    private override init() {
+        super.init()
+    }
+
+    deinit {
+    }
+
+    // MARK: - Const Definitions
+    /// The key for the user unique UUID identifier (The corresponding value is String).
+    @objc public static let hnbMixpanelUserUniqueUUIDIdentifierKey: String = "HNBMixpanelUserUniqueUUIDIdentifier"
+
+
+    // MARK: - Public Interfaces
+    /// The initialize method, but it does not support `superProperties` argument (always nil).
+    @objc public func initialize(
+      token apiToken: String,
+      flushInterval: Double = 60,
+      instanceName: String? = nil,
+      optOutTrackingByDefault: Bool = false,
+      useUniqueDistinctId: Bool = false,
+      serverURL: String? = nil,
+      useGzipCompression: Bool = false
+    ) {
+        let superProperties: Properties? = nil
+        Mixpanel.initialize(
+          token: apiToken,
+          flushInterval: flushInterval,
+          instanceName: instanceName,
+          optOutTrackingByDefault: optOutTrackingByDefault,
+          useUniqueDistinctId: useUniqueDistinctId,
+          superProperties: superProperties,
+          serverURL: serverURL,
+          useGzipCompression: useGzipCompression
+        )
+    }
+
+    /// Find the user unique UUID identifier, which is persistent across app launches.
+    @objc public func userUniqueUUIDIdentifier() -> String
+    {
+        let systemDefaults: UserDefaults = UserDefaults.standard
+
+        let userID: String? = systemDefaults.string(forKey: HnbMixpanel.hnbMixpanelUserUniqueUUIDIdentifierKey)
+        if let theUserID: String = userID {
+            return theUserID
+        }
+        else
+        {
+            let tmpUUID: UUID = UUID()
+            let randomString: String = "HNBID-" + tmpUUID.uuidString
+
+            // Save to defaults database
+            systemDefaults.set(randomString, forKey: HnbMixpanel.hnbMixpanelUserUniqueUUIDIdentifierKey)
+            systemDefaults.synchronize()
+            return randomString
+        }
+    }
+
+    /// Identify Users: This method allows you to see which users triggered each event in Mixpanel
+    @objc public func identify(distinctId: String, usePeople: Bool = true, completion: (() -> Void)? = nil) {
+        Mixpanel.mainInstance().identify(distinctId: distinctId, usePeople: usePeople, completion: completion)
+    }
+
+    /// Identify Users: This method use user unique UUID identifier as distinctId, which allows you to see which users triggered each event in Mixpanel
+    @objc public func identifyWithUserUniqueUUIDIdentifier() {
+        let userID = self.userUniqueUUIDIdentifier()
+        self.identify(distinctId: userID)
+    }
+
+    /// This method allows you to define the attributes of each user for `String` value
+    @objc public func peopleSet(property: String, toStringValue to: String) {
+        Mixpanel.mainInstance().people.set(property: property, to: to)
+    }
+
+    /// This method allows you to define the attributes of each user for `Int` value
+    @objc public func peopleSet(property: String, toIntValue to: Int) {
+        Mixpanel.mainInstance().people.set(property: property, to: to)
+    }
+
+    /// This method allows you to define the attributes of each user for `Double` value
+    @objc public func peopleSet(property: String, toDoubleValue to: Double) {
+        Mixpanel.mainInstance().people.set(property: property, to: to)
+    }
+
+    /// This method allows you to define the attributes of each user for `URL` value
+    @objc public func peopleSet(property: String, toURLValue to: URL) {
+        Mixpanel.mainInstance().people.set(property: property, to: to)
+    }
+
+    // MARK: - Track Events
+    /// Track an event with optional properties.
+    ///
+    /// - Important: The values in `properties` parameter must conform to `MixpanelType` protocol.
+    ///              MixpanelType can be either String, Int, UInt, Double, Float, Bool, [MixpanelType], [String: MixpanelType], Date, URL, or NSNull.
+    ///              Numbers are not NaN or infinity
+    @objc public func track(event: String, properties: [String: Any]? = nil)
+    {
+        var compatiblePropertiesDict: [String: MixpanelType] = [:]
+        if let thePropertiesDict: [String: Any] = properties
+        {
+            for (propName, propValue) in thePropertiesDict
+            {
+                if let theMixpanelType: MixpanelType = propValue as? MixpanelType {
+                    compatiblePropertiesDict.updateValue(theMixpanelType, forKey: propName)
+                }
+            }
+        }
+
+        let resultingProperties: Properties? = compatiblePropertiesDict.isEmpty ? nil : compatiblePropertiesDict
+        Mixpanel.mainInstance().track(event: event, properties: resultingProperties)
+    }
+
+}
+
+#endif  // os(OSX)
+// ----------------------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------------------
