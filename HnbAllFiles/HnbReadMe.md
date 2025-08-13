@@ -20,7 +20,7 @@ Simply double-click `hnbarchive.command` script to build this framework into Bin
 3. Some sample code:
 ```swift
 import Mixpanel
-    
+
 func applicationDidFinishLaunching(_ aNotification: Notification) {
 
     // 1. Mixpanel Setup - Replace with your own Project Token
@@ -39,6 +39,17 @@ func applicationDidFinishLaunching(_ aNotification: Notification) {
     HnbMixpanel.shared.track(event: <#"App Launched"#>, properties: [
         "Signup Type": "Referral"
     ])
-
 }
+
+// Tells the delegate that the app is about to terminate
+func applicationWillTerminate(_ notification: Notification) {
+
+    // 999. Mixpanel Reset on Logout - After logout, call reset to clear local storage
+    // New distinct_id is generated for events moving forward
+    // Clears all stored properties including the distinct Id.
+    // Useful if your app's user logs out.
+    // Meaning calls to reset will generate a new random UUID.
+    HnbMixpanel.shared.reset()
+}
+
 ```

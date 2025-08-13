@@ -202,6 +202,12 @@ public class HnbMixpanel: NSObject {
         self.identify(distinctId: userID)
     }
 
+    /// After logout, call reset to clear local storage, you may call it like this: `.reset()`
+    /// New "distinct_id" is generated for events moving forward.
+    @objc public func reset(completion: (() -> Void)? = nil) {
+        Mixpanel.mainInstance().reset(completion: completion)
+    }
+
     /// This method allows you to define the attributes of each user for `String` value
     @objc public func peopleSet(property: String, toStringValue to: String) {
         Mixpanel.mainInstance().people.set(property: property, to: to)
@@ -243,6 +249,11 @@ public class HnbMixpanel: NSObject {
 
         let resultingProperties: Properties? = compatiblePropertiesDict.isEmpty ? nil : compatiblePropertiesDict
         Mixpanel.mainInstance().track(event: event, properties: resultingProperties)
+    }
+
+    /// Flush batched events for ingestion immediately, you may call it like this: `.flush()`
+    @objc public func flush(performFullFlush: Bool = false, completion: (() -> Void)? = nil) {
+        Mixpanel.mainInstance().flush(performFullFlush: performFullFlush, completion: completion)
     }
 
 }
