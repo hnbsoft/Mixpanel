@@ -9,7 +9,7 @@
 import Foundation
 
 /// Internal use, used to see whether you are using the correct version of HnbMixpanel framework.
-fileprivate let kHnbMixpanelFrameworkInternalVersion: String = "40.25.0811.1"
+fileprivate let kHnbMixpanelFrameworkInternalVersion: String = "40.25.0813.1"
 
 /// class HnbMixpanelInfo
 public class HnbMixpanelInfo: NSObject
