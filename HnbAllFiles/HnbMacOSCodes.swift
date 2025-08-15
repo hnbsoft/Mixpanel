@@ -185,6 +185,11 @@ public class HnbMixpanel: NSObject {
         )
     }
 
+    /// The initialize method, which is the simplest one.
+    @objc public func initialize(_ apiToken: String) {
+        self.initialize(token: apiToken)
+    }
+
     /// Find the App Run Count.
     @objc public func appRunCount() -> Int
     {
@@ -225,27 +230,27 @@ public class HnbMixpanel: NSObject {
 
     /// After logout, call reset to clear local storage, you may call it like this: `.reset()`
     /// New "distinct_id" is generated for events moving forward.
-    @objc public func reset(completion: (() -> Void)? = nil) {
+    @objc public func reset(_ completion: (() -> Void)? = nil) {
         Mixpanel.mainInstance().reset(completion: completion)
     }
 
     /// This method allows you to define the attributes of each user for `String` value
-    @objc public func peopleSet(property: String, toStringValue to: String) {
+    @objc public func peopleSet(_ property: String, toStringValue to: String) {
         Mixpanel.mainInstance().people.set(property: property, to: to)
     }
 
     /// This method allows you to define the attributes of each user for `Int` value
-    @objc public func peopleSet(property: String, toIntValue to: Int) {
+    @objc public func peopleSet(_ property: String, toIntValue to: Int) {
         Mixpanel.mainInstance().people.set(property: property, to: to)
     }
 
     /// This method allows you to define the attributes of each user for `Double` value
-    @objc public func peopleSet(property: String, toDoubleValue to: Double) {
+    @objc public func peopleSet(_ property: String, toDoubleValue to: Double) {
         Mixpanel.mainInstance().people.set(property: property, to: to)
     }
 
     /// This method allows you to define the attributes of each user for `URL` value
-    @objc public func peopleSet(property: String, toURLValue to: URL) {
+    @objc public func peopleSet(_ property: String, toURLValue to: URL) {
         Mixpanel.mainInstance().people.set(property: property, to: to)
     }
 
@@ -255,7 +260,7 @@ public class HnbMixpanel: NSObject {
     /// - Important: The values in `properties` parameter must conform to `MixpanelType` protocol.
     ///              MixpanelType can be either String, Int, UInt, Double, Float, Bool, [MixpanelType], [String: MixpanelType], Date, URL, or NSNull.
     ///              Numbers are not NaN or infinity
-    @objc public func track(event: String, properties: [String: Any]? = nil)
+    @objc public func track(_ event: String, properties: [String: Any]? = nil)
     {
         var compatiblePropertiesDict: [String: MixpanelType] = [:]
         if let thePropertiesDict: [String: Any] = properties
@@ -273,7 +278,7 @@ public class HnbMixpanel: NSObject {
     }
 
     /// Flush batched events for ingestion immediately, you may call it like this: `.flush()`
-    @objc public func flush(performFullFlush: Bool = false, completion: (() -> Void)? = nil) {
+    @objc public func flush(_ performFullFlush: Bool = false, completion: (() -> Void)? = nil) {
         Mixpanel.mainInstance().flush(performFullFlush: performFullFlush, completion: completion)
     }
 

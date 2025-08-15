@@ -24,19 +24,19 @@ import Mixpanel
 func applicationDidFinishLaunching(_ aNotification: Notification) {
 
     // 1. Mixpanel Setup - Replace with your own Project Token
-    HnbMixpanel.shared.initialize(token: <#"YOUR_TOKEN"#>)
+    HnbMixpanel.shared.initialize(<#"YOUR_TOKEN"#>)
 
     // 2. Mixpanel Identify Users
     HnbMixpanel.shared.identifyWithUserUniqueUUIDIdentifier()
 
     // Optionally define some attributes of current user
-    // HnbMixpanel.shared.peopleSet(property: String, toStringValue to: String)
-    // HnbMixpanel.shared.peopleSet(property: String, toIntValue to: Int)
-    // HnbMixpanel.shared.peopleSet(property: String, toDoubleValue to: Double)
-    // HnbMixpanel.shared.peopleSet(property: String, toURLValue to: URL)
+    // HnbMixpanel.shared.peopleSet(propertyName, toStringValue: stringValue)
+    // HnbMixpanel.shared.peopleSet(propertyName, toIntValue: intValue)
+    // HnbMixpanel.shared.peopleSet(propertyName, toDoubleValue: doubleValue)
+    // HnbMixpanel.shared.peopleSet(propertyName, toURLValue: urlValue)
 
     // 3. Mixpanel Track Events
-    HnbMixpanel.shared.track(event: <#"App Launched"#>, properties: [
+    HnbMixpanel.shared.track(<#"Event Name"#>, properties: [
         "Signup Type": "Referral"
     ])
 }
