@@ -282,6 +282,16 @@ public class HnbMixpanel: NSObject {
         Mixpanel.mainInstance().flush(performFullFlush: performFullFlush, completion: completion)
     }
 
+    // MARK: - Util Methods
+    /// Track a "App Launched" event with current app run count
+    @objc public func hnbTrackAppLaunchedEvent()
+    {
+        let counter: Int = self.appRunCount()
+
+        self.track("App Launched", properties: [
+            "AppRunCount": counter
+        ])
+    }
 }
 
 #endif  // os(OSX)

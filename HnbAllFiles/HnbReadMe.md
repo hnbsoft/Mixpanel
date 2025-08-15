@@ -15,9 +15,8 @@ Simply double-click `hnbarchive.command` script to build this framework into Bin
 
 ## How to use this framework for macOS app project
 
-1. Import Mixpanel into AppDelegate.swift file.
-2. Initialize Mixpanel within `applicationDidFinishLaunching` function.
-3. Some sample code:
+In AppDelegate.swift file, import Mixpanel and add some code as below:
+
 ```swift
 import Mixpanel
 
@@ -35,7 +34,10 @@ func applicationDidFinishLaunching(_ aNotification: Notification) {
     // HnbMixpanel.shared.peopleSet(propertyName, toDoubleValue: doubleValue)
     // HnbMixpanel.shared.peopleSet(propertyName, toURLValue: urlValue)
 
-    // 3. Mixpanel Track Events
+    // 3. Mixpanel Recommended to track "App Launched" event here.
+    HnbMixpanel.shared.hnbTrackAppLaunchedEvent()
+
+    // Mixpanel Track Other Events anywhere in your project
     HnbMixpanel.shared.track(<#"Event Name"#>, properties: [
         "Signup Type": "Referral"
     ])
