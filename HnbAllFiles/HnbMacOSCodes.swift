@@ -130,6 +130,18 @@ open class HnbWrapperMixpanel {
 public class HnbMixpanel: NSObject {
     /// Singleton: The shared instance of this class
     @objc public static let shared: HnbMixpanel = {
+        // Prepare app run count
+        let systemDefaults: UserDefaults = UserDefaults.standard
+
+        // Returns the integer value associated with the specified key. If the specified key does not exist, this method returns 0.
+        let savedCount: Int = systemDefaults.integer(forKey: HnbMixpanel.hnbMixpanelAppRunCountKey)
+        let currentCount: Int = savedCount + 1
+
+        // Save new value to defaults database
+        systemDefaults.set(currentCount, forKey: HnbMixpanel.hnbMixpanelAppRunCountKey)
+        systemDefaults.synchronize()
+
+        // Returns an instance of HnbMixpanel class
         return HnbMixpanel()
     }()
 
@@ -144,6 +156,9 @@ public class HnbMixpanel: NSObject {
     // MARK: - Const Definitions
     /// The key for the user unique UUID identifier (The corresponding value is String).
     @objc public static let hnbMixpanelUserUniqueUUIDIdentifierKey: String = "HNBMixpanelUserUniqueUUIDIdentifier"
+
+    /// The key for app run count (The corresponding value is Int).
+    fileprivate static let hnbMixpanelAppRunCountKey: String = "HNBMixpanelAppRunCount"
 
 
     // MARK: - Public Interfaces
@@ -168,6 +183,12 @@ public class HnbMixpanel: NSObject {
           serverURL: serverURL,
           useGzipCompression: useGzipCompression
         )
+    }
+
+    /// Find the App Run Count.
+    @objc public func appRunCount() -> Int
+    {
+        return UserDefaults.standard.integer(forKey: HnbMixpanel.hnbMixpanelAppRunCountKey)
     }
 
     /// Find the user unique UUID identifier, which is persistent across app launches.
