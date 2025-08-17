@@ -34,8 +34,8 @@ func applicationDidFinishLaunching(_ aNotification: Notification) {
     // HnbMixpanel.shared.peopleSet(propertyName, toDoubleValue: doubleValue)
     // HnbMixpanel.shared.peopleSet(propertyName, toURLValue: urlValue)
 
-    // 3. Mixpanel Recommended to track "App Launched" event here.
-    HnbMixpanel.shared.hnbTrackAppLaunchedEvent()
+    // 3. Mixpanel Must increase App Run Count, and then recommended to track "App Launched" event here.
+    HnbMixpanel.shared.increaseAppRunCountAndThenTrackAppLaunchedEvent()
 
     // Mixpanel Track Other Events anywhere in your project
     HnbMixpanel.shared.track(<#"Event Name"#>, properties: [

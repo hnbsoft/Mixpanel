@@ -130,17 +130,6 @@ open class HnbWrapperMixpanel {
 public class HnbMixpanel: NSObject {
     /// Singleton: The shared instance of this class
     @objc public static let shared: HnbMixpanel = {
-        // Prepare app run count
-        let systemDefaults: UserDefaults = UserDefaults.standard
-
-        // Returns the integer value associated with the specified key. If the specified key does not exist, this method returns 0.
-        let savedCount: Int = systemDefaults.integer(forKey: HnbMixpanel.hnbMixpanelAppRunCountKey)
-        let currentCount: Int = savedCount + 1
-
-        // Save new value to defaults database
-        systemDefaults.set(currentCount, forKey: HnbMixpanel.hnbMixpanelAppRunCountKey)
-        systemDefaults.synchronize()
-
         // Returns an instance of HnbMixpanel class
         return HnbMixpanel()
     }()
@@ -188,6 +177,23 @@ public class HnbMixpanel: NSObject {
     /// The initialize method, which is the simplest one.
     @objc public func initialize(_ apiToken: String) {
         self.initialize(token: apiToken)
+    }
+
+    /// Increase the "App Run Count" by 1.
+    /// - Important: You must call this method(or `increaseAppRunCountAndThenTrackAppLaunchedEvent()` method) only one time during the app startup cycle.
+    ///              For example call in `applicationDidFinishLaunching()` method.
+    @objc public func increaseAppRunCount()
+    {
+        // Prepare app run count
+        let systemDefaults: UserDefaults = UserDefaults.standard
+
+        // Returns the integer value associated with the specified key. If the specified key does not exist, this method returns 0.
+        let savedCount: Int = systemDefaults.integer(forKey: HnbMixpanel.hnbMixpanelAppRunCountKey)
+        let currentCount: Int = savedCount + 1
+
+        // Save new value to defaults database
+        systemDefaults.set(currentCount, forKey: HnbMixpanel.hnbMixpanelAppRunCountKey)
+        systemDefaults.synchronize()
     }
 
     /// Find the App Run Count.
@@ -283,9 +289,13 @@ public class HnbMixpanel: NSObject {
     }
 
     // MARK: - Util Methods
-    /// Track a "App Launched" event with current app run count
-    @objc public func hnbTrackAppLaunchedEvent()
+    /// Increase the "App Run Count" by 1 and then Track a "App Launched" event with current app run count
+    @objc public func increaseAppRunCountAndThenTrackAppLaunchedEvent()
     {
+        // Firstly increase the "App Run Count"
+        self.increaseAppRunCount()
+
+        // Then track a "App Launched" event
         let counter: Int = self.appRunCount()
 
         self.track("App Launched", properties: [
