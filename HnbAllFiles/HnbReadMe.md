@@ -3,7 +3,6 @@
 The following parts need to be improved, but it's not urgent, so I have not modify these for now.
 2. Build settings for **Mixpanel_macOS** target:
     1. *NOT-Important*: The value of `CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES` should be NO.
-    2. The `TARGETED_DEVICE_FAMILY` build setting item should be deleted.
 
 
 ## How to build this framework
@@ -57,3 +56,4 @@ func applicationWillTerminate(_ notification: Notification) {
 
 ## Fixed issues
 1. The value of `NSPrincipalClass` item is empty in Info.plist file, I deleted this item at 2025.12.26 15:35 
+2. The `TARGETED_DEVICE_FAMILY` build setting item of *Mixpanel_macOS* target is deleted at 2025.12.26 16:33
