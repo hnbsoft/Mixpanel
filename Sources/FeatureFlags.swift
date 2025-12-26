@@ -33,10 +33,16 @@ struct AnyCodable: Decodable {
 public struct MixpanelFlagVariant: Decodable {
   public let key: String  // Corresponds to 'variant_key' from API
   public let value: Any?  // Corresponds to 'variant_value' from API
+  public let experimentID: String? // Corresponds to 'experiment_id' from API
+  public let isExperimentActive: Bool? // Corresponds to 'is_experiment_active' from API
+  public let isQATester: Bool? // Corresponds to 'is_qa_tester' from API
 
   enum CodingKeys: String, CodingKey {
     case key = "variant_key"
     case value = "variant_value"
+    case experimentID = "experiment_id"
+    case isExperimentActive = "is_experiment_active"
+    case isQATester = "is_qa_tester"
   }
 
   public init(from decoder: Decoder) throws {
@@ -49,16 +55,24 @@ public struct MixpanelFlagVariant: Decodable {
     // If the value is an unsupported type, AnyCodable throws.
     let anyCodableValue = try container.decode(AnyCodable.self, forKey: .value)
     value = anyCodableValue.value  // Extract the underlying Any? value
+
+    // Decode optional fields for tracking
+    experimentID = try container.decodeIfPresent(String.self, forKey: .experimentID)
+    isExperimentActive = try container.decodeIfPresent(Bool.self, forKey: .isExperimentActive)
+    isQATester = try container.decodeIfPresent(Bool.self, forKey: .isQATester)
   }
 
   // Helper initializer with fallbacks, value defaults to key if nil
-  public init(key: String = "", value: Any? = nil) {
+  public init(key: String = "", value: Any? = nil, isExperimentActive: Bool? = nil, isQATester: Bool? = nil, experimentID: String? = nil) {
     self.key = key
     if let value = value {
       self.value = value
     } else {
       self.value = key
     }
+    self.experimentID = experimentID
+    self.isExperimentActive = isExperimentActive
+    self.isQATester = isQATester
   }
 }
 
@@ -436,23 +450,32 @@ class FeatureFlagManager: Network, MixpanelFlags {
     if let anonymousId = anonymousId {
       context["device_id"] = anonymousId
     }
-    let requestBodyDict = ["context": context]
 
     guard
-      let requestBodyData = try? JSONSerialization.data(
-        withJSONObject: requestBodyDict, options: [])
+      let contextData = try? JSONSerialization.data(
+        withJSONObject: context, options: []),
+      let contextString = String(data: contextData, encoding: .utf8)
     else {
-      print("Error: Failed to serialize request body for flags.")
+      print("Error: Failed to serialize context for flags.")
       self._completeFetch(success: false)
       return
     }
+
     guard let authData = "\(options.token):".data(using: .utf8) else {
       print("Error: Failed to create auth data.")
       self._completeFetch(success: false)
       return
     }
     let base64Auth = authData.base64EncodedString()
-    let headers = ["Authorization": "Basic \(base64Auth)", "Content-Type": "application/json"]
+    let headers = ["Authorization": "Basic \(base64Auth)"]
+
+    let queryItems = [
+      URLQueryItem(name: "context", value: contextString),
+      URLQueryItem(name: "token", value: options.token),
+      URLQueryItem(name: "mp_lib", value: "swift"),
+      URLQueryItem(name: "$lib_version", value: AutomaticProperties.libVersion())
+    ]
+
     let responseParser: (Data) -> FlagsResponse? = { data in
       do { return try JSONDecoder().decode(FlagsResponse.self, from: data) } catch {
         print("Error parsing flags JSON: \(error)")
@@ -460,7 +483,7 @@ class FeatureFlagManager: Network, MixpanelFlags {
       }
     }
     let resource = Network.buildResource(
-      path: flagsRoute, method: .post, requestBody: requestBodyData, headers: headers,
+      path: flagsRoute, method: .get, queryItems: queryItems, headers: headers,
       parse: responseParser)
 
     // Make the API request
@@ -559,6 +582,16 @@ class FeatureFlagManager: Network, MixpanelFlags {
     }
     if let fetchLatencyMs = fetchLatencyMs {
       properties["fetchLatencyMs"] = fetchLatencyMs
+    }
+
+    if let experimentID = variant.experimentID {
+      properties["$experiment_id"] = experimentID
+    }
+    if let isExperimentActive = variant.isExperimentActive {
+      properties["$is_experiment_active"] = isExperimentActive
+    }
+    if let isQATester = variant.isQATester {
+      properties["$is_qa_tester"] = isQATester
     }
 
     // Dispatch delegate call asynchronously to main thread for safety
