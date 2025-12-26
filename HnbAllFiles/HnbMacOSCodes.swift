@@ -234,7 +234,8 @@ public class HnbMixpanel: NSObject {
         self.identify(distinctId: userID)
     }
 
-    /// After logout, call reset to clear local storage, you may call it like this: `.reset()`
+    /// After logout, call reset to clear local storage, you may call it like this:
+    /// `.reset()` for Swift, or `[HnbMixpanel.shared reset:nil];` for Objective-C.
     /// New "distinct_id" is generated for events moving forward.
     @objc public func reset(_ completion: (() -> Void)? = nil) {
         Mixpanel.mainInstance().reset(completion: completion)
