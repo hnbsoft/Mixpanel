@@ -1,10 +1,3 @@
-## Improvements
-
-The following parts need to be improved, but it's not urgent, so I have not modify these for now.
-2. Build settings for **Mixpanel_macOS** target:
-    1. *NOT-Important*: The value of `CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES` should be NO.
-
-
 ## How to build this framework
 
 Simply double-click `hnbarchive.command` script to build this framework into BinFrameworks folder.
@@ -54,6 +47,9 @@ func applicationWillTerminate(_ notification: Notification) {
 ```
 
 
+___
 ## Fixed issues
+
 1. The value of `NSPrincipalClass` item is empty in Info.plist file, I deleted this item at 2025.12.26 15:35 
 2. The `TARGETED_DEVICE_FAMILY` build setting item of *Mixpanel_macOS* target is deleted at 2025.12.26 16:33
+3. The `CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES` build setting item of *Mixpanel_macOS* target is deleted at 2025.12.26 16:47.
