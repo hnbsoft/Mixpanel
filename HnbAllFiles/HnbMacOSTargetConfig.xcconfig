@@ -15,5 +15,7 @@ MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = gnu17 gnu++20
 MODULE_VERIFIER_SUPPORTED_LANGUAGES = objective-c objective-c++
 
 
-// Signing section
+// Signing section - ("No code sign identity" defaults to Sign to Run Locally (-) )
 CODE_SIGN_STYLE = Automatic
+// DEVELOPMENT_TEAM = SAV4PQTCH3
+// CODE_SIGN_IDENTITY = Apple Development
