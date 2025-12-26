@@ -241,6 +241,83 @@ public class HnbMixpanel: NSObject {
         Mixpanel.mainInstance().reset(completion: completion)
     }
 
+    // MARK: - People
+    /// Swift version: Set properties on the current user in Mixpanel People, but doesn't overwrite if
+    /// there is an existing value.
+    ///
+    /// This method is identical to `set:` except it will only set
+    /// properties that are not already set. It is particularly useful for collecting
+    /// data about the user's initial experience and source, as well as dates
+    /// representing the first time something happened.
+    ///
+    /// Property keys must be String objects and the supported value types need to conform to MixpanelType.
+    /// MixpanelType can be either String, Int, UInt, Double, Float, Bool, [MixpanelType], [String: MixpanelType], Date, URL, or NSNull.
+    ///
+    /// - parameter properties: properties dictionary
+    public func peopleSetOnce(with properties: [String: MixpanelType]) {
+        Mixpanel.mainInstance().people.setOnce(properties: properties)
+    }
+
+    /// Objective-C version: Set properties on the current user in Mixpanel People, but doesn't overwrite if
+    /// there is an existing value.
+    ///
+    /// This method is identical to `set:` except it will only set
+    /// properties that are not already set. It is particularly useful for collecting
+    /// data about the user's initial experience and source, as well as dates
+    /// representing the first time something happened.
+    ///
+    /// Property keys must be NSString objects and the supported value types currently supports the following:
+    /// `NSString, NSNumber, NSArray<NSString *>`
+    ///
+    /// - parameter properties: properties dictionary (keys must be NSString objects, values must be one of `NSString, NSNumber, NSArray<NSString *>`).
+    @objc public func peopleSetOnceProperties(_ properties: [NSString: NSObject]) {
+        var adjustedPropertiesDict: [String: MixpanelType] = [:]
+        for (propKey, propValue) in properties {
+            if let theValue: MixpanelType = propValue as? MixpanelType {
+                adjustedPropertiesDict.updateValue(theValue, forKey: (propKey as String))
+            }
+        }
+
+        Mixpanel.mainInstance().people.setOnce(properties: adjustedPropertiesDict)
+    }
+
+    /// Swift version: Set properties on the current user in Mixpanel People.
+    ///
+    /// The properties will be set on the current user.
+    /// Property keys must be String objects and the supported value types need to conform to MixpanelType.
+    /// MixpanelType can be either String, Int, UInt, Double, Float, Bool, [MixpanelType], [String: MixpanelType], Date, URL, or NSNull.
+    /// If the existing user record on the server already has a value for a given property, the old
+    /// value is overwritten. Other existing properties will not be affected.
+    ///
+    /// - Precondition: You must identify for the set information to be linked to that user
+    ///
+    /// - parameter properties: properties dictionary
+    public func peopleSet(with properties: [String: MixpanelType]) {
+        Mixpanel.mainInstance().people.set(properties: properties)
+    }
+
+    /// Objective-C version: Set properties on the current user in Mixpanel People.
+    ///
+    /// The properties will be set on the current user.
+    /// Property keys must be NSString objects and the supported value types currently supports the following:
+    /// `NSString, NSNumber, NSArray<NSString *>`
+    /// If the existing user record on the server already has a value for a given property, the old
+    /// value is overwritten. Other existing properties will not be affected.
+    ///
+    /// - Precondition: You must identify for the set information to be linked to that user
+    ///
+    /// - parameter properties: properties dictionary (keys must be NSString objects, values must be one of `NSString, NSNumber, NSArray<NSString *>`).
+    @objc public func peopleSetProperties(_ properties: [NSString: NSObject]) {
+        var adjustedPropertiesDict: [String: MixpanelType] = [:]
+        for (propKey, propValue) in properties {
+            if let theValue: MixpanelType = propValue as? MixpanelType {
+                adjustedPropertiesDict.updateValue(theValue, forKey: (propKey as String))
+            }
+        }
+
+        Mixpanel.mainInstance().people.set(properties: adjustedPropertiesDict)
+    }
+
     /// This method allows you to define the attributes of each user for `String` value
     @objc public func peopleSet(_ property: String, toStringValue to: String) {
         Mixpanel.mainInstance().people.set(property: property, to: to)
