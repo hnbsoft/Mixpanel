@@ -19,6 +19,9 @@ func applicationDidFinishLaunching(_ aNotification: Notification) {
     HnbMixpanel.shared.identifyWithUserUniqueUUIDIdentifier()
 
     // Optionally define some attributes of current user
+    // HnbMixpanel.shared.peopleSetOnce(with: propertiesDict)  // Initial Setup Once
+    //
+    // HnbMixpanel.shared.peopleSet(with: propertiesDict)
     // HnbMixpanel.shared.peopleSet(propertyName, toStringValue: stringValue)
     // HnbMixpanel.shared.peopleSet(propertyName, toIntValue: intValue)
     // HnbMixpanel.shared.peopleSet(propertyName, toDoubleValue: doubleValue)
