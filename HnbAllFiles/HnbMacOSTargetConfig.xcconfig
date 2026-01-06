@@ -17,5 +17,5 @@ MODULE_VERIFIER_SUPPORTED_LANGUAGES = objective-c objective-c++
 
 // Signing section - (If you have set "development team", you may also want to set "code sign identity" to: Apple Development )
 CODE_SIGN_STYLE = Automatic
-// DEVELOPMENT_TEAM = SAV4PQTCH3
 CODE_SIGN_IDENTITY = -
+DEVELOPMENT_TEAM = SAV4PQTCH3
