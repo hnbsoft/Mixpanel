@@ -57,3 +57,11 @@ ___
 1. The value of `NSPrincipalClass` item is empty in Info.plist file, I deleted this item at 2025.12.26 15:35 
 2. The `TARGETED_DEVICE_FAMILY` build setting item of *Mixpanel_macOS* target is deleted at 2025.12.26 16:33
 3. The `CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES` build setting item of *Mixpanel_macOS* target is deleted at 2025.12.26 16:47.
+
+
+## TODO list
+
+1. Add an analytics feature to track how many times a user uses the app before making a purchase.
+2. When a user completes a purchase, add or set some attributes to that user:
+    * Add "app run count when purchased" to that user profile.
+    * Add a "flag" to indicate the user has purchased.
